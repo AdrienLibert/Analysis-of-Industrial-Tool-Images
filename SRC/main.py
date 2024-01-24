@@ -4,7 +4,7 @@ import numpy as np
 
 from diametre_monnaie import estimate_diameter
 def main():
-    image_path = '../DataBase/image5.jpg'
+    image_path = 'BDD/image7.jpg' 
 
     
     image = cv2.imread(image_path)
@@ -34,15 +34,20 @@ def main():
 
     # Calculate the bounding rectangle and extract the width (horizontal diameter)
     x, y, w, h = cv2.boundingRect(piece_contour)
-    horizontal_diameter_pixels = w
+
+    diameter_pixels = max(w,h)
+    
+    print(diameter_pixels)
+
 
     
     reference_object_real_world_mm = 22.6  # Example: the coin diameter in mm
     reference_object_size_pixels = estimate_diameter(image_path)
     print(reference_object_size_pixels)
+    print(diameter_pixels)
 
     # Calculate the nut's diameter in real-world units
-    nut_diameter_mm = (horizontal_diameter_pixels / reference_object_size_pixels) * reference_object_real_world_mm
+    nut_diameter_mm = (diameter_pixels / reference_object_size_pixels) * reference_object_real_world_mm
 
     print(f"Diameter of the nut: {nut_diameter_mm} mm")
 
