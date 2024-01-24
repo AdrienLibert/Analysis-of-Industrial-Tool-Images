@@ -1,8 +1,12 @@
 import cv2
+import nbimporter
 import numpy as np
 
+from diametre_monnaie import estimate_diameter
 def main():
-    image_path = 'BDD/image7.jpg' 
+    image_path = '../DataBase/image5.jpg'
+
+    
     image = cv2.imread(image_path)
 
     if image is None:
@@ -33,8 +37,9 @@ def main():
     horizontal_diameter_pixels = w
 
     
-    reference_object_real_world_mm = 24.25  # Example: the coin diameter in mm
-    reference_object_size_pixels = 100  
+    reference_object_real_world_mm = 22.6  # Example: the coin diameter in mm
+    reference_object_size_pixels = estimate_diameter(image_path)
+    print(reference_object_size_pixels)
 
     # Calculate the nut's diameter in real-world units
     nut_diameter_mm = (horizontal_diameter_pixels / reference_object_size_pixels) * reference_object_real_world_mm
@@ -42,7 +47,7 @@ def main():
     print(f"Diameter of the nut: {nut_diameter_mm} mm")
 
     # Save 
-    cv2.imwrite('detected_nut_diameter.png', image)
+    cv2.imwrite('Test/detected_nut_diameter.jpg', image)
 
 if __name__ == '__main__':
     main()
