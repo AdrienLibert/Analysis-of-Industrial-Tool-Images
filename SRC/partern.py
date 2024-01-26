@@ -38,4 +38,21 @@ for x in range(0, pattern_width, int(pas_pixels)):
 # Sauvegarder l'image du pattern
 cv2.imwrite('Test/pattern_image.jpg', pattern_image)
 
+# # Charger l'image cible
+# target_image = cv2.imread(image_path)
+# gray_image = cv2.cvtColor(target_image, cv2.COLOR_BGR2GRAY)
 
+# # Effectuer le template matching
+# result = cv2.matchTemplate(gray_image, pattern_image, cv2.TM_CCOEFF_NORMED)
+
+# # Seuil pour la reconnaissance
+# threshold = 0.8
+# locations = np.where(result >= threshold)
+
+# # Superposer le pattern sur l'image cible
+# for loc in zip(*locations[::-1]):
+#     # Dessiner un rectangle autour de la zone correspondante
+#     cv2.rectangle(target_image, loc, (loc[0] + pattern_width, loc[1] + pattern_height), (0,255,0), 2)
+
+# # Afficher l'image résultante
+# cv2.imwrite('Test/target_image.jpg', target_image)
