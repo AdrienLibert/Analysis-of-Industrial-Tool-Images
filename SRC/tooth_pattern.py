@@ -6,9 +6,9 @@ from diametre_monnaie import conversion_piece
 
 image_path = 'DataBase/image7.jpg' 
 
-reference_object_mm = 22.6  # diamètre de la pièce de monnaie en mm ( à Modifier)
+reference_object_mm = 22.6  # diamètre de la pièce de monnaie en mm
 
-# Les dimensions réelles en millimètres de la piece ( à modifier)
+# Les dimensions réelles en millimètres de la piece
 
 diametre_reel_mm = 20  # Diamètre réel du filetage en mm  
 pas_reel_mm = 25.4 / 14 # Pas réel du filetage en mm
@@ -18,13 +18,13 @@ def draw_tooth_pattern(image_path,diametre_reel_mm, pas_reel_mm, reference_objec
     size_pixels = conversion_piece(image_path, reference_object_mm)
     
     pas_pixels = pas_reel_mm / size_pixels
-    tooth_height = int(2 / size_pixels)  # La hauteur de la dent est définie ici
+    tooth_height = int(1 / size_pixels)  # Hauteur de la dent
     
     pattern_width = int(pas_pixels) * 4  # Largeur pour 4 dents
     
     pattern_image = np.zeros((tooth_height, pattern_width), dtype=np.uint8)
     
-    # Dessiner 4 dents
+    # Dessiner les 4 dents
     for i in range(4):
         # Calculer les points de départ, milieu et fin pour chaque dent
         start_x = int(i * pas_pixels + pas_pixels * 0.25)
