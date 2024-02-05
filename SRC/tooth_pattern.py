@@ -37,11 +37,11 @@ def draw_tooth_pattern(image_path,diametre_reel_mm, pas_reel_mm, reference_objec
 
     if rotation:
         pattern_image = cv2.rotate(pattern_image, cv2.ROTATE_180)
-        
+
     return pattern_image
 
 
-pattern_image = draw_tooth_pattern(image_path,diametre_reel_mm,pas_reel_mm,reference_object_mm)
+pattern_image = draw_tooth_pattern(image_path,diametre_reel_mm,pas_reel_mm,reference_object_mm,False)
 cv2.imwrite('pattern_image.jpg', pattern_image)
 
 def match(template,img_path):
