@@ -1,0 +1,284 @@
+Métrique,M1,25
+Métrique,"M1,1",25
+Métrique,"M1,2",25
+Métrique,"M1,4",25
+Métrique,"M1,6",35
+Métrique,"M1,7",35
+Métrique,"M1,8",35
+Métrique,M2,40
+Métrique,"M2,2",45
+Métrique,"M2,3",40
+Métrique,"M2,5",45
+Métrique,"M2,6",45
+Métrique,M3,50
+Métrique,M3,60
+Métrique,"M3,5",60
+Métrique,M4,70
+Métrique,M4,75
+Métrique,"M4,5",75
+Métrique,M5,80
+Métrique,"M5,5",90
+Métrique,M6,100
+Métrique,M7,100
+Métrique,M8,125
+Métrique,M9,125
+Métrique,M10,150
+Métrique,M11,150
+Métrique,M12,175
+Métrique,M14,200
+Métrique,M16,200
+Métrique,M18,250
+Métrique,M20,250
+Métrique,M22,250
+Métrique,M24,300
+Métrique,M27,300
+Métrique,M30,350
+Métrique,M33,350
+Métrique,M36,400
+Métrique,M39,400
+Métrique,M42,450
+Métrique,M45,450
+Métrique,M48,500
+Métrique,M52,500
+Métrique,M56,550
+Métrique,M60,550
+Métrique,M64,600
+Métrique,M68,600
+Métrique,M72,600
+Métrique,M76,600
+Métrique,M80,600
+Métrique,M84,600
+Métrique,M88,600
+Métrique,M90,600
+Métrique,M92,600
+Métrique,M96,600
+Métrique,M100,600
+Métrique Fin,MF3,35
+Métrique Fin,MF4,35
+Métrique Fin,MF4,50
+Métrique Fin,MF5,50
+Métrique Fin,MF5,75
+Métrique Fin,MF6,50
+Métrique Fin,MF6,75
+Métrique Fin,MF7,75
+Métrique Fin,MF8,50
+Métrique Fin,MF8,75
+Métrique Fin,MF8,100
+Métrique Fin,MF9,75
+Métrique Fin,MF9,100
+Métrique Fin,MF10,75
+Métrique Fin,MF10,100
+Métrique Fin,MF10,125
+Métrique Fin,MF11,100
+Métrique Fin,MF11,125
+Métrique Fin,MF12,75
+Métrique Fin,MF12,100
+Métrique Fin,MF12,125
+Métrique Fin,MF12,150
+Métrique Fin,MF13,100
+Métrique Fin,MF13,150
+Métrique Fin,MF14,75
+Métrique Fin,MF14,100
+Métrique Fin,MF14,125
+Métrique Fin,MF14,150
+Métrique Fin,MF15,100
+Métrique Fin,MF15,150
+Métrique Fin,MF16,100
+Métrique Fin,MF16,125
+Métrique Fin,MF16,150
+Métrique Fin,MF17,100
+Métrique Fin,MF17,150
+Métrique Fin,MF18,100
+Métrique Fin,MF18,125
+Métrique Fin,MF18,150
+Métrique Fin,MF18,200
+Métrique Fin,MF20,100
+Métrique Fin,MF20,125
+Métrique Fin,MF20,150
+Métrique Fin,MF20,200
+Métrique Fin,MF21,150
+Métrique Fin,MF22,100
+Métrique Fin,MF22,125
+Métrique Fin,MF22,150
+Métrique Fin,MF22,200
+Métrique Fin,MF23,150
+Métrique Fin,MF24,100
+Métrique Fin,MF24,125
+Métrique Fin,MF24,150
+Métrique Fin,MF24,200
+Métrique Fin,MF25,100
+Métrique Fin,MF25,150
+Métrique Fin,MF26,100
+Métrique Fin,MF26,150
+Métrique Fin,MF26,200
+Métrique Fin,MF27,100
+Métrique Fin,MF27,150
+Métrique Fin,MF27,200
+Métrique Fin,MF28,100
+Métrique Fin,MF28,150
+Métrique Fin,MF28,200
+Métrique Fin,MF29,150
+Métrique Fin,MF30,100
+Métrique Fin,MF30,150
+Métrique Fin,MF30,200
+Métrique Fin,MF30,250
+Métrique Fin,MF30,300
+Métrique Fin,MF32,150
+Métrique Fin,MF32,200
+Métrique Fin,MF32,300
+Métrique Fin,MF33,150
+Métrique Fin,MF33,200
+Métrique Fin,MF33,300
+Métrique Fin,MF34,150
+Métrique Fin,MF34,200
+Métrique Fin,MF35,150
+Métrique Fin,MF36,150
+Métrique Fin,MF36,200
+Métrique Fin,MF36,300
+Métrique Fin,MF38,150
+Métrique Fin,MF39,150
+Métrique Fin,MF39,200
+Métrique Fin,MF39,300
+Métrique Fin,MF40,150
+Métrique Fin,MF40,200
+Métrique Fin,MF40,300
+Métrique Fin,MF42,150
+Métrique Fin,MF42,200
+Métrique Fin,MF42,300
+Métrique Fin,MF45,150
+Métrique Fin,MF45,200
+Métrique Fin,MF45,300
+Métrique Fin,MF48,150
+Métrique Fin,MF48,200
+Métrique Fin,MF48,300
+Métrique Fin,MF50,150
+Métrique Fin,MF50,200
+Métrique Fin,MF50,300
+Métrique Fin,MF52,150
+Métrique Fin,MF52,200
+Métrique Fin,MF52,300
+Métrique Fin,MF54,100
+Métrique Fin,MF54,150
+Métrique Fin,MF54,200
+Métrique Fin,MF54,300
+Métrique Fin,MF54,400
+Métrique Fin,MF55,150
+Métrique Fin,MF55,200
+Métrique Fin,MF55,300
+Métrique Fin,MF55,400
+Métrique Fin,MF56,100
+Métrique Fin,MF56,150
+Métrique Fin,MF56,200
+Métrique Fin,MF56,300
+Métrique Fin,MF56,400
+Métrique Fin,MF58,100
+Métrique Fin,MF58,150
+Métrique Fin,MF58,200
+Métrique Fin,MF58,300
+Métrique Fin,MF58,400
+Métrique Fin,MF60,150
+Métrique Fin,MF60,200
+Métrique Fin,MF60,300
+Métrique Fin,MF60,400
+Métrique Fin,MF62,150
+Métrique Fin,MF62,200
+Métrique Fin,MF62,300
+Métrique Fin,MF62,400
+Métrique Fin,MF63,150
+Métrique Fin,MF64,150
+Métrique Fin,MF64,200
+Métrique Fin,MF64,300
+Métrique Fin,MF64,400
+Métrique Fin,MF65,150
+Métrique Fin,MF65,200
+Métrique Fin,MF65,300
+Métrique Fin,MF65,400
+Métrique Fin,MF68,150
+Métrique Fin,MF68,200
+Métrique Fin,MF68,300
+Métrique Fin,MF68,400
+Métrique Fin,MF70,150
+Métrique Fin,MF70,200
+Métrique Fin,MF70,300
+Métrique Fin,MF70,400
+Métrique Fin,MF72,150
+Métrique Fin,MF72,200
+Métrique Fin,MF72,300
+Métrique Fin,MF72,400
+Métrique Fin,MF74,150
+Métrique Fin,MF74,200
+Métrique Fin,MF74,300
+Métrique Fin,MF74,400
+Métrique Fin,MF75,150
+Métrique Fin,MF75,200
+Métrique Fin,MF75,300
+Métrique Fin,MF75,400
+Métrique Fin,MF76,150
+Métrique Fin,MF76,200
+Métrique Fin,MF76,300
+Métrique Fin,MF76,400
+Métrique Fin,MF78,150
+Métrique Fin,MF78,200
+Métrique Fin,MF78,300
+Métrique Fin,MF78,400
+Métrique Fin,MF80,150
+Métrique Fin,MF80,200
+Métrique Fin,MF80,300
+Métrique Fin,MF80,400
+Métrique Fin,MF82,150
+Métrique Fin,MF82,200
+Métrique Fin,MF82,300
+Métrique Fin,MF82,400
+Métrique Fin,MF84,150
+Métrique Fin,MF84,200
+Métrique Fin,MF84,300
+Métrique Fin,MF84,400
+Métrique Fin,MF85,150
+Métrique Fin,MF85,200
+Métrique Fin,MF85,300
+Métrique Fin,MF85,400
+Métrique Fin,MF86,150
+Métrique Fin,MF86,200
+Métrique Fin,MF86,300
+Métrique Fin,MF86,400
+Métrique Fin,MF88,150
+Métrique Fin,MF88,200
+Métrique Fin,MF88,300
+Métrique Fin,MF88,400
+Métrique Fin,MF90,150
+Métrique Fin,MF90,200
+Métrique Fin,MF90,300
+Métrique Fin,MF90,400
+Métrique Fin,MF92,150
+Métrique Fin,MF92,200
+Métrique Fin,MF92,300
+Métrique Fin,MF92,400
+Métrique Fin,MF95,150
+Métrique Fin,MF95,200
+Métrique Fin,MF95,300
+Métrique Fin,MF95,400
+Métrique Fin,MF96,150
+Métrique Fin,MF96,200
+Métrique Fin,MF96,300
+Métrique Fin,MF96,400
+Métrique Fin,MF98,150
+Métrique Fin,MF98,200
+Métrique Fin,MF98,300
+Métrique Fin,MF98,400
+Métrique Fin,MF100,150
+Métrique Fin,MF100,200
+Métrique Fin,MF100,300
+Métrique Fin,MF100,400
+Métrique Fin,MF105,150
+Métrique Fin,MF105,200
+Métrique Fin,MF105,300
+Métrique Fin,MF105,400
+Métrique Fin,MF110,150
+Métrique Fin,MF110,200
+Métrique Fin,MF110,300
+Métrique Fin,MF110,400
+Métrique GROS,M4,75
+Métrique GROS,M5,90
+Métrique GROS,M5,100
+Métrique GROS,M6,125
+Métrique GROS,M8,150
