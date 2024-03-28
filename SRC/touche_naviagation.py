@@ -75,7 +75,11 @@ canvas = tk.Canvas(root, width=image.width, height=image.height)
 canvas.pack()
 
 image_on_canvas = canvas.create_image(0, 0, image=photo, anchor=tk.NW)
-pattern = draw_tooth_pattern(pas_reel_mm, reference_object_mm, image_path, True)
+
+pattern_image_path = 'pattern_image.jpg'
+pattern_image = Image.open(pattern_image_path)
+pattern_photo = ImageTk.PhotoImage(pattern_image)
+pattern = canvas.create_image(100, 100, image=pattern_photo)
 
 root.bind("<Up>", move_up)
 root.bind("<Down>", move_down)

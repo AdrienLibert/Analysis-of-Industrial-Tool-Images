@@ -3,8 +3,14 @@ import numpy as np
 from matplotlib import pyplot as plt
 from diametre_monnaie import conversion_piece
 
+
 def draw_tooth_pattern(pas_reel_mm, reference_object_mm, image_path, rotation):
     size_pixels = conversion_piece(image_path, reference_object_mm)
+
+    if not size_pixels:
+        print("Erreur : la conversion a échoué ou la taille en pixels est zéro.")
+        # Retourner une image vide ou une valeur par défaut
+        return np.zeros((10, 10), dtype=np.uint8)
     
     pas_pixels = pas_reel_mm / size_pixels
     
@@ -34,46 +40,13 @@ def draw_tooth_pattern(pas_reel_mm, reference_object_mm, image_path, rotation):
     
     return pattern_image
 
-# def match_top_bottom(template, template_r, img_path, vertical_split_ratio=0.5):
-#     img = cv2.imread(img_path, cv2.IMREAD_GRAYSCALE)
-#     h, w = img.shape
+pas_reel_mm = 4
+reference_object_mm = 24.25
+image_path = '../DataBase/image7.jpg'
+rotation = True
 
-#     # Diviser l'image en deux régions horizontalement
-#     split_line = int(vertical_split_ratio * h)
+pattern_image = draw_tooth_pattern(pas_reel_mm, reference_object_mm, image_path, rotation)
 
-#     # Régions supérieure et inférieure
-#     top_region = img[:split_line, :]
-#     bottom_region = img[split_line:, :]
+cv2.imwrite('pattern_image.jpg', pattern_image)
 
-#     # Appliquer la correspondance de modèle sur la région supérieure avec template_r
-#     res_top = cv2.matchTemplate(top_region, template_r, cv2.TM_CCOEFF_NORMED)
-#     _, max_val_top, _, max_loc_top = cv2.minMaxLoc(res_top)
-#     top_left_top = (max_loc_top[0], max_loc_top[1])
-#     bottom_right_top = (max_loc_top[0] + template_r.shape[1], max_loc_top[1] + template_r.shape[0])
 
-#     # Dessiner le rectangle pour la meilleure correspondance dans la région supérieure
-#     cv2.rectangle(img, top_left_top, bottom_right_top, 255, 2)
-
-#     # Appliquer la correspondance de modèle sur la région inférieure avec template
-#     res_bottom = cv2.matchTemplate(bottom_region, template, cv2.TM_CCOEFF_NORMED)
-#     _, max_val_bottom, _, max_loc_bottom = cv2.minMaxLoc(res_bottom)
-#     top_left_bottom = (max_loc_bottom[0], max_loc_bottom[1] + split_line)
-#     bottom_right_bottom = (max_loc_bottom[0] + template.shape[1], max_loc_bottom[1] + split_line + template.shape[0])
-
-#     # Dessiner le rectangle pour la meilleure correspondance dans la région inférieure
-#     cv2.rectangle(img, top_left_bottom, bottom_right_bottom, 255, 2)
-
-#     # Sauvegarder et retourner l'image avec les rectangles de correspondance
-#     output_path = 'matched_image.jpg'
-#     cv2.imwrite(output_path, img)
-
-#     return img, (top_left_top, bottom_right_bottom)
-
-# Exemple d'utilisation
-
-# # Création des deux templates
-# pattern_image = draw_tooth_pattern(pas_reel_mm, reference_object_mm, image_path,False)
-# pattern_image_r = draw_tooth_pattern(pas_reel_mm, reference_object_mm, image_path,True)
-
-# # Match
-# img_with_matches, (top_left_top, bottom_right_bottom) = match_top_bottom(pattern_image, pattern_image_r, image_path)

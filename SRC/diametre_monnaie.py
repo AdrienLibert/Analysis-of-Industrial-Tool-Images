@@ -15,12 +15,7 @@ def conversion_piece(image_path,taille_piece):
     if image is None:
         raise ValueError("L'image n'a pas pu être chargée.")
     
-    taille_noyau = (5, 5)
-    sigma = 0
-    blurred_image = cv2.GaussianBlur(image, taille_noyau, sigma)
-    
-    
-    gray = cv2.cvtColor(blurred_image, cv2.COLOR_BGR2GRAY)
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     _,thresh = cv2.threshold(gray,0,255,cv2.THRESH_BINARY+cv2.THRESH_OTSU)
     thresh = cv2.bitwise_not(thresh)
 
@@ -64,13 +59,8 @@ def estimate_image(image_path):
     image = cv2.imread(image_path)#charge image
     if image is None:
         raise ValueError("L'image n'a pas pu être chargée.")
-    
-    taille_noyau = (5, 5)
-    sigma = 0
-    blurred_image = cv2.GaussianBlur(image, taille_noyau, sigma)
-    
-    
-    gray = cv2.cvtColor(blurred_image, cv2.COLOR_BGR2GRAY)
+        
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     _,thresh = cv2.threshold(gray,0,255,cv2.THRESH_BINARY+cv2.THRESH_OTSU)
     thresh = cv2.bitwise_not(thresh)
 
