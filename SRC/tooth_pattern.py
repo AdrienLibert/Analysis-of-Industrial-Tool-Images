@@ -1,19 +1,7 @@
 import cv2
 import numpy as np
 from matplotlib import pyplot as plt
-import nbimporter
 from diametre_monnaie import conversion_piece
-
-image_path = 'DataBase/image10.jpg' 
-
-reference_object_mm = 24.25  # diamètre de la pièce de monnaie en mm 
-
-# Les dimensions réelles en millimètres de la piece 
-diametre_reel_mm = 10 # Diamètre réel du filetage en mm  
-# pas_reel_mm = 25.4 / 14 # Pas réel du filetage en mm
-pas_reel_mm = 4 # Pas réel du filetage en mm
-#Image 11 -  10 mm de diametre - 16 mm de pas - 24.25 piece de 50 centime
-
 
 def draw_tooth_pattern(pas_reel_mm, reference_object_mm, image_path, rotation):
     size_pixels = conversion_piece(image_path, reference_object_mm)
@@ -45,26 +33,6 @@ def draw_tooth_pattern(pas_reel_mm, reference_object_mm, image_path, rotation):
         pattern_image = cv2.rotate(pattern_image, cv2.ROTATE_180)
     
     return pattern_image
-
-pattern_image = draw_tooth_pattern(pas_reel_mm,reference_object_mm,image_path,True)
-cv2.imwrite('pattern_image.jpg', pattern_image)
-
-def match(template,img_path):
-    img = cv2.imread(img_path,cv2.IMREAD_GRAYSCALE)
-    w, h = template.shape[::-1]
-    res = cv2.matchTemplate(img,template,cv2.TM_CCOEFF_NORMED)
-    min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
-
-    top_left = max_loc
-    bottom_right = (top_left[0] + w, top_left[1] + h)
-    
-    cv2.rectangle(img,top_left, bottom_right, 255, 2)
-    
-    return img,res,max_val
-
-img,res,max_val=match(pattern_image,image_path)
-cv2.imwrite('match_image.jpg', img)
-
 
 # def match_top_bottom(template, template_r, img_path, vertical_split_ratio=0.5):
 #     img = cv2.imread(img_path, cv2.IMREAD_GRAYSCALE)
