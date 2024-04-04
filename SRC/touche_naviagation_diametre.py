@@ -3,9 +3,9 @@ from PIL import Image, ImageTk
 import cv2
 import numpy as np
 from matplotlib import pyplot as plt
-from diametre_monnaie import conversion_piece
 import math
-from tooth_pattern import draw_tooth_pattern
+from diametre_monnaie import conversion_piece
+
 
 
 def zoom(event):
@@ -56,10 +56,25 @@ def move_left(event):
 def move_right(event):
     canvas.move(pattern, 10, 0)
 
+points = []
 
 image_path = '../DataBase/image7.jpg' 
+reference_object_mm = 22.6  # diamètre de la pièce de monnaie en mm 
 
-reference_object_mm = 24.25  # diamètre de la pièce de monnaie en mm 
+def on_click(event):
+    global points, canvas, reference_object_mm, image_path
+    radius = 3
+    points.append((event.x, event.y))
+    canvas.create_oval(event.x - radius, event.y - radius, event.x + radius, event.y + radius, fill='red')
+
+
+    if len(points) == 2:
+        distance = math.sqrt((points[1][0] - points[0][0]) ** 2 + (points[1][1] - points[0][1]) ** 2)
+        print(f"Distance: {distance} pixels")
+        size_pixels = conversion_piece(image_path, reference_object_mm)
+        print(f"Distance en mm: {distance * size_pixels} mm")
+        points = []
+
 
 # Les dimensions réelles en millimètres de la piece 
 diametre_reel_mm = 10 # Diamètre réel du filetage en mm  
@@ -76,11 +91,7 @@ canvas.pack()
 
 image_on_canvas = canvas.create_image(0, 0, image=photo, anchor=tk.NW)
 
-pattern_image_path = 'pattern_image_transparent.png'
-pattern_image = Image.open(pattern_image_path)
-pattern_photo = ImageTk.PhotoImage(pattern_image)
-pattern = canvas.create_image(100, 100, image=pattern_photo)
-
+canvas.bind("<Button-1>", on_click)
 root.bind("<Up>", move_up)
 root.bind("<Down>", move_down)
 root.bind("<Left>", move_left)
@@ -89,8 +100,4 @@ root.bind("<Right>", move_right)
 root.bind("z", zoom)
 root.bind("x", dezoom)
 
-root.bind("<a>", rotate_left)
-root.bind("<e>", rotate_right)
-
 root.mainloop()
-

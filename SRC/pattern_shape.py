@@ -1,10 +1,9 @@
 import cv2
 import numpy as np
 from matplotlib import pyplot as plt
-import nbimporter
 from diametre_monnaie import conversion_piece
 
-image_path = 'DataBase/image7.jpg'
+image_path = '../DataBase/image7.jpg'
 
 reference_object_mm = 22.6  # diamètre de la pièce de monnaie en mm 
 size_pixels = conversion_piece(image_path, reference_object_mm)
@@ -14,7 +13,7 @@ pas_mm = 25.4 / 14 # Pas réel du filetage en mm
 
 def draw_tooth_pattern(size_pixels,pas_reel_mm,rotation):
 
-    if size_pixels <= 0:
+    if size_pixels is None or size_pixels <= 0:
         raise ValueError("La taille en pixels doit être positive et non nulle")
     
     pas_pixels = pas_reel_mm / size_pixels
@@ -100,3 +99,18 @@ cv2.imwrite('pattern_image.jpg', combined_pattern)
 #     if similarity < 0.1:  # Valeur seuil pour la similarité
 #         cv2.drawContours(image, [contour], -1, (255, 0, 0), 3)
 # cv2.imwrite('image.jpg', image)
+
+
+
+
+def pattern_to_transparent(pattern_image):
+
+    rgba_image = cv2.cvtColor(pattern_image, cv2.COLOR_GRAY2RGBA)
+
+    rgba_image[:, :, 3] = np.where(rgba_image[:, :, 0] == 0, 0, 255)
+
+    return rgba_image
+
+combined_pattern_rgba = pattern_to_transparent(combined_pattern)
+
+cv2.imwrite('pattern_image_transparent.png', combined_pattern_rgba)
