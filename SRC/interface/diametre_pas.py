@@ -1,3 +1,6 @@
+import math
+import pandas as pd
+
 def demander_type_filetage():
     reponse = input("Avez-vous un filetage métrique ou à gaz? Tapez 'métrique' ou 'gaz': ").strip().lower()
     
@@ -7,5 +10,24 @@ def demander_type_filetage():
     
     return reponse
 
-type_filetage = demander_type_filetage()
-print(f"Vous avez sélectionné un filetage {type_filetage}.")
+def trouver_entiers_adjacents(nombre):
+    inf = math.floor(nombre)
+    sup = math.ceil(nombre)
+    if inf == sup:
+        inf -= 1
+        sup += 1
+    return inf, sup
+
+def pas_metrique(inf, sup):
+    df = pd.read_csv('Metrique.csv', header=None)
+    df.columns = ['Type', 'Taille', 'Valeur']
+    pattern = f"M{inf}"
+    selected_values = {}
+    for size in df['Taille'].unique():
+        if size.startswith(pattern) or size == f"M{sup}":
+            selected_values[size] = df[df['Taille'] == size]['Valeur'].iloc[0]
+
+    for taille, valeur in selected_values.items():
+        print(f"{taille}: {valeur}")
+
+pas_metrique(2, 3)
