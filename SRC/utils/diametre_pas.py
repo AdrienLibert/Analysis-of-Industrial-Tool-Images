@@ -2,7 +2,8 @@ import math
 import pandas as pd
 
 
-metrique_path = "Ressources\Table\Metrique.csv"
+metrique_path = "..\Ressources\Table\Metrique.csv"
+
 def demander_type_filetage():
     reponse = input("Avez-vous un filetage métrique ou à gaz? Tapez 'métrique' ou 'gaz': ").strip().lower()
     
@@ -31,5 +32,3 @@ def pas_metrique(inf, sup):
 
     for taille, valeur in selected_values.items():
         print(f"{taille}: {valeur}")
-
-pas_metrique(2, 3)

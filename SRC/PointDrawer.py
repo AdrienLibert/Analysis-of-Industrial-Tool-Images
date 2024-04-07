@@ -1,10 +1,8 @@
 import math
-from PyQt5.QtWidgets import QLabel, QApplication
 from PyQt5.QtGui import QPainter, QPen, QPixmap
 from PyQt5.QtCore import Qt, QPoint, QLineF
 from ImageViewer import ImageViewer
 from utils.diametre_monnaie import conversion_piece
-
 
 image_path = "..\Ressources\Database\image7.jpg"
 reference_object_mm = 22.6
@@ -12,6 +10,7 @@ reference_object_mm = 22.6
 class PointDrawer(ImageViewer):
     def __init__(self):
         super().__init__()
+        self.last_measured_distance_mm = None
         self.pixmap = QPixmap(image_path)
         self.setPixmap(self.pixmap)
         self.original_width = self.pixmap.width()
@@ -48,6 +47,7 @@ class PointDrawer(ImageViewer):
                 size_pixels = conversion_piece(image_path, reference_object_mm) #Fonction de conversion
                 distance_mm = distance_real * size_pixels # Calcul distance final
                 print(f"Distance entre les deux derniers points : {distance_mm} mm")
+                self.last_measured_distance_mm = distance_mm
 
     def calculateDistance(self):
         if len(self.points) >= 2:
@@ -55,4 +55,8 @@ class PointDrawer(ImageViewer):
             p2 = self.points[-1]
             return math.sqrt((p2.x() - p1.x()) ** 2 + (p2.y() - p1.y()) ** 2)
         return 0
+    
+
+    def get_last_measured_distance(self):
+        return self.last_measured_distance_mm
 

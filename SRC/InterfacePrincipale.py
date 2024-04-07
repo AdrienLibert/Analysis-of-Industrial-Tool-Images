@@ -1,13 +1,14 @@
-from PyQt5.QtWidgets import QMainWindow, QWidget, QVBoxLayout
+from PyQt5.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QPushButton
+from PyQt5.QtCore import pyqtSignal
 from PointDrawer import PointDrawer
 
 class InterfacePrincipale(QMainWindow):
+    distanceReady = pyqtSignal(float)
+
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Visualiseur de Filetage")
 
-        #self.resize(1000, 700)
-        
         widgetCentral = QWidget()
         self.setCentralWidget(widgetCentral)
         layoutPrincipal = QVBoxLayout()
@@ -15,3 +16,12 @@ class InterfacePrincipale(QMainWindow):
         
         self.viewer = PointDrawer()
         layoutPrincipal.addWidget(self.viewer)
+
+        self.bouton_mesure = QPushButton("Confirmer la mesure", self)
+        layoutPrincipal.addWidget(self.bouton_mesure)
+        self.bouton_mesure.clicked.connect(self.emitDistance)
+
+    def emitDistance(self):
+        distance = self.viewer.get_last_measured_distance()
+        if distance is not None:
+            self.distanceReady.emit(distance)
