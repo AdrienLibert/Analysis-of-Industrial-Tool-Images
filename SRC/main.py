@@ -1,6 +1,6 @@
 import sys
 from PyQt5.QtWidgets import QApplication
-from interface import InterfacePrincipale
+from InterfacePrincipale import InterfacePrincipale
 
 def main():
     app = QApplication(sys.argv)

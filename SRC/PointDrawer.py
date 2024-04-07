@@ -2,10 +2,11 @@ import math
 from PyQt5.QtWidgets import QLabel, QApplication
 from PyQt5.QtGui import QPainter, QPen, QPixmap
 from PyQt5.QtCore import Qt, QPoint, QLineF
-from viewer import ImageViewer
-from diametre_monnaie import conversion_piece
+from ImageViewer import ImageViewer
+from utils.diametre_monnaie import conversion_piece
 
-image_path = 'image7.jpg'
+
+image_path = "Ressources\Database\image7.jpg"
 reference_object_mm = 22.6
 
 class PointDrawer(ImageViewer):

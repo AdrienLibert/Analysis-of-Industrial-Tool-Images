@@ -1,12 +1,13 @@
 from PyQt5.QtWidgets import QMainWindow, QWidget, QVBoxLayout
-from diametre_interface import PointDrawer
+from PointDrawer import PointDrawer
+from ImageViewer import ImageViewer
 
 class InterfacePrincipale(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Visualiseur de Filetage")
 
-        #self.resize(1000, 700)
+        self.resize(1000, 700)
         
         widgetCentral = QWidget()
         self.setCentralWidget(widgetCentral)

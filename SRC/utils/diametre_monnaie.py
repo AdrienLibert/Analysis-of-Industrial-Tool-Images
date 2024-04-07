@@ -51,8 +51,6 @@ def conversion_piece(image_path,taille_piece):
     else:
         diameter = 0
 
-    cv2.imwrite('output_image_with_diameter.jpg', output_image)
-
     return taille_piece/diameter #diametre
 
 def estimate_image(image_path):

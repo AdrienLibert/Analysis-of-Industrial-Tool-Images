@@ -1,6 +1,8 @@
 import math
 import pandas as pd
 
+
+metrique_path = "Ressources\Table\Metrique.csv"
 def demander_type_filetage():
     reponse = input("Avez-vous un filetage métrique ou à gaz? Tapez 'métrique' ou 'gaz': ").strip().lower()
     
@@ -19,7 +21,7 @@ def trouver_entiers_adjacents(nombre):
     return inf, sup
 
 def pas_metrique(inf, sup):
-    df = pd.read_csv('Metrique.csv', header=None)
+    df = pd.read_csv(metrique_path, header=None)
     df.columns = ['Type', 'Taille', 'Valeur']
     pattern = f"M{inf}"
     selected_values = {}
