@@ -6,7 +6,7 @@ from ImageViewer import ImageViewer
 from utils.diametre_monnaie import conversion_piece
 
 
-image_path = "Ressources\Database\image7.jpg"
+image_path = "..\Ressources\Database\image7.jpg"
 reference_object_mm = 22.6
 
 class PointDrawer(ImageViewer):
@@ -55,3 +55,4 @@ class PointDrawer(ImageViewer):
             p2 = self.points[-1]
             return math.sqrt((p2.x() - p1.x()) ** 2 + (p2.y() - p1.y()) ** 2)
         return 0
+
