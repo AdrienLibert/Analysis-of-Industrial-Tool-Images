@@ -1,0 +1,81 @@
+import sys
+from InterfacePrincipale import InterfacePrincipale
+from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel, QVBoxLayout, QWidget, QFileDialog, QMessageBox, QStackedLayout
+from PyQt5.QtGui import QPixmap, QIcon
+from PyQt5.QtCore import Qt, QSize
+
+class MainWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.initUI()
+
+    def initUI(self):
+        self.setWindowTitle('Reconnaissance d’images d’outils industriels')
+        self.setWindowIcon(QIcon('C:/Users/fokam/Desktop/PTrans/images.jpg'))  # Définissez l'icône de la fenêtre
+        self.setGeometry(100, 100, 800, 600)  # Position et taille de la fenêtre : x, y, largeur, hauteur
+
+        # Définir une image par défaut avec une icône de téléchargement
+        self.defaultPixmap = QPixmap(400, 400)
+        self.defaultPixmap.fill(Qt.lightGray)  # Remplit l'image par défaut de gris clair
+        self.imageLabel = QLabel(self)
+        self.imageLabel.setPixmap(self.defaultPixmap)
+        self.imageLabel.setAlignment(Qt.AlignCenter)
+        self.imageLabel.setStyleSheet("QLabel { background-color : white; border: 2px dashed #C0C0C0; }")
+
+        # Conteneur pour superposer l'icône au centre
+        self.imageContainer = QWidget(self)
+        stackedLayout = QStackedLayout(self.imageContainer)
+        self.imageContainer.setLayout(stackedLayout)
+        
+        # Icone au centre
+        self.uploadIcon = QLabel(self)
+        self.uploadIcon.setPixmap(QPixmap('C:/Users/fokam/Desktop/PTrans/Downloads-icon.png').scaled(64, 64, Qt.KeepAspectRatio))
+        self.uploadIcon.setAlignment(Qt.AlignCenter)
+        self.uploadIcon.setStyleSheet("background: transparent;")
+
+        # Ajout de l'imageLabel et de l'uploadIcon au layout empilé
+        stackedLayout.addWidget(self.imageLabel)
+        stackedLayout.addWidget(self.uploadIcon)
+
+        self.label = QLabel('Cliquez sur "Charger Image" pour commencer.', self)
+        self.label.setAlignment(Qt.AlignCenter)
+        self.label.setStyleSheet("font-size: 16px; font-weight: bold; color: #555;")
+
+        self.btnLoad = QPushButton('Charger Image', self)
+        self.btnLoad.clicked.connect(self.loadImage)
+        self.btnLoad.setStyleSheet("QPushButton { padding: 10px; font-size: 16px; }")
+
+        self.btnAnalyse = QPushButton('Analyser Image', self)
+        self.btnAnalyse.clicked.connect(self.analyser_image)
+        self.btnAnalyse.setStyleSheet("QPushButton { padding: 10px; font-size: 16px; }")
+
+        layout = QVBoxLayout()
+        layout.addWidget(self.label)
+        layout.addWidget(self.imageContainer)
+        layout.addWidget(self.btnLoad)
+        layout.addWidget(self.btnAnalyse)
+
+        container = QWidget()
+        container.setLayout(layout)
+        self.setCentralWidget(container)
+
+    def loadImage(self):
+        fname, _ = QFileDialog.getOpenFileName(self, 'Open file', r'C:\Users\adrie\OneDrive\Bureau\Analysis-of-Industrial-Tool-Images\Ressources\Database', "Image files (*.jpg *.png)")
+        if fname:
+            self.imageLabel.setPixmap(QPixmap(fname).scaled(400, 400, Qt.KeepAspectRatio))
+            self.label.setText('Image chargée. Cliquez sur "Analyser Image" pour procéder.')
+            self.uploadIcon.hide()  # Cacher l'icône de téléchargement après le chargement de l'image
+            self.loadedPixmap = QPixmap(fname)  # Stocker le QPixmap original
+
+    def analyser_image(self):
+        if hasattr(self, 'loadedPixmap'):  # Vérifier si une image a été chargée
+            self.fenetre = InterfacePrincipale()
+            self.fenetre.viewer.setImage(self.loadedPixmap)  # Passer le pixmap chargé à PointDrawer via InterfacePrincipale
+            self.fenetre.distanceReady.connect(self.process_distance)
+            self.fenetre.show()
+        else:
+            QMessageBox.warning(self, 'Aucune Image', 'Veuillez charger une image avant d\'analyser.')
+
+    def process_distance(self, distance):
+        QMessageBox.information(self, 'Analyse Terminée', f'L’analyse de l’image a été réalisée avec succès. Distance mesurée: {distance} mm')
+
