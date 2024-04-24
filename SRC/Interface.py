@@ -82,5 +82,6 @@ class MainWindow(QMainWindow):
             QMessageBox.warning(self, 'Aucune Image', 'Veuillez charger une image avant d\'analyser.')
 
     def process_distance(self, distance):
-        QMessageBox.information(self, 'Analyse Terminée', f'L’analyse de l’image a été réalisée avec succès. Distance mesurée: {distance} mm')
-        self.distanceMeasured.emit(distance)
+        rounded_distance = round(distance, 1)
+        QMessageBox.information(self, 'Analyse Terminée', f'L’analyse de l’image a été réalisée avec succès. Distance mesurée: {rounded_distance} mm')
+        self.distanceMeasured.emit(rounded_distance)
