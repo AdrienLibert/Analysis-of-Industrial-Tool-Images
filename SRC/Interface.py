@@ -1,6 +1,6 @@
 import sys
 from InterfacePrincipale import InterfacePrincipale
-from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel, QVBoxLayout, QWidget, QFileDialog, QMessageBox, QStackedLayout
+from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel, QVBoxLayout, QWidget, QFileDialog, QMessageBox, QStackedLayout # type: ignore
 from PyQt5.QtGui import QPixmap, QIcon
 from PyQt5.QtCore import Qt, QSize
 
@@ -11,7 +11,7 @@ class MainWindow(QMainWindow):
 
     def initUI(self):
         self.setWindowTitle('Reconnaissance d’images d’outils industriels')
-        self.setWindowIcon(QIcon('C:/Users/fokam/Desktop/PTrans/images.jpg'))  # Définissez l'icône de la fenêtre
+        self.setWindowIcon(QIcon('Ressources/Icone/icone_1.jpg'))  # Icône de la fenêtre
         self.setGeometry(100, 100, 800, 600)  # Position et taille de la fenêtre : x, y, largeur, hauteur
 
         # Définir une image par défaut avec une icône de téléchargement
@@ -27,15 +27,8 @@ class MainWindow(QMainWindow):
         stackedLayout = QStackedLayout(self.imageContainer)
         self.imageContainer.setLayout(stackedLayout)
         
-        # Icone au centre
-        self.uploadIcon = QLabel(self)
-        self.uploadIcon.setPixmap(QPixmap('C:/Users/fokam/Desktop/PTrans/Downloads-icon.png').scaled(64, 64, Qt.KeepAspectRatio))
-        self.uploadIcon.setAlignment(Qt.AlignCenter)
-        self.uploadIcon.setStyleSheet("background: transparent;")
-
         # Ajout de l'imageLabel et de l'uploadIcon au layout empilé
         stackedLayout.addWidget(self.imageLabel)
-        stackedLayout.addWidget(self.uploadIcon)
 
         self.label = QLabel('Cliquez sur "Charger Image" pour commencer.', self)
         self.label.setAlignment(Qt.AlignCenter)
@@ -60,11 +53,10 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(container)
 
     def loadImage(self):
-        fname, _ = QFileDialog.getOpenFileName(self, 'Open file', r'C:\Users\adrie\OneDrive\Bureau\Analysis-of-Industrial-Tool-Images\Ressources\Database', "Image files (*.jpg *.png)")
+        fname, _ = QFileDialog.getOpenFileName(self, 'Open file', r'Analysis-of-Industrial-Tool-Images\Ressources\Database', "Image files (*.jpg *.png)")
         if fname:
             self.imageLabel.setPixmap(QPixmap(fname).scaled(400, 400, Qt.KeepAspectRatio))
             self.label.setText('Image chargée. Cliquez sur "Analyser Image" pour procéder.')
-            self.uploadIcon.hide()  # Cacher l'icône de téléchargement après le chargement de l'image
             self.loadedPixmap = QPixmap(fname)  # Stocker le QPixmap original
 
     def analyser_image(self):
