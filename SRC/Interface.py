@@ -3,8 +3,13 @@ from InterfacePrincipale import InterfacePrincipale
 from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel, QVBoxLayout, QWidget, QFileDialog, QMessageBox, QStackedLayout # type: ignore
 from PyQt5.QtGui import QPixmap, QIcon
 from PyQt5.QtCore import Qt, QSize
+from PyQt5.QtWidgets import QInputDialog
+from PyQt5.QtCore import pyqtSignal
+
+
 
 class MainWindow(QMainWindow):
+    distanceMeasured = pyqtSignal(float)
     def __init__(self):
         super().__init__()
         self.initUI()
@@ -52,17 +57,25 @@ class MainWindow(QMainWindow):
         container.setLayout(layout)
         self.setCentralWidget(container)
 
+    def getReferenceSize(self):
+        size, ok = QInputDialog.getDouble(self, "Taille de la pièce de référence", "Entrez la taille en mm de votre pièce de référence:", decimals=2)
+        if ok:
+            self.referenceObjectMM = size  # Sauvegarder la taille si l'utilisateur clique sur OK
+        return ok
+
     def loadImage(self):
         fname, _ = QFileDialog.getOpenFileName(self, 'Open file', r'Analysis-of-Industrial-Tool-Images\Ressources\Database', "Image files (*.jpg *.png)")
         if fname:
+            self.imagePath = fname
             self.imageLabel.setPixmap(QPixmap(fname).scaled(400, 400, Qt.KeepAspectRatio))
             self.label.setText('Image chargée. Cliquez sur "Analyser Image" pour procéder.')
             self.loadedPixmap = QPixmap(fname)  # Stocker le QPixmap original
 
     def analyser_image(self):
         if hasattr(self, 'loadedPixmap'):  # Vérifier si une image a été chargée
-            self.fenetre = InterfacePrincipale()
-            self.fenetre.viewer.setImage(self.loadedPixmap)  # Passer le pixmap chargé à PointDrawer via InterfacePrincipale
+            self.getReferenceSize()
+            self.fenetre = InterfacePrincipale(self.imagePath,self.referenceObjectMM)
+            self.fenetre.viewer.setImage(self.loadedPixmap)
             self.fenetre.distanceReady.connect(self.process_distance)
             self.fenetre.show()
         else:
@@ -70,4 +83,4 @@ class MainWindow(QMainWindow):
 
     def process_distance(self, distance):
         QMessageBox.information(self, 'Analyse Terminée', f'L’analyse de l’image a été réalisée avec succès. Distance mesurée: {distance} mm')
-
+        self.distanceMeasured.emit(distance)

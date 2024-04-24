@@ -4,13 +4,14 @@ from PyQt5.QtCore import Qt, QPoint, QLineF
 from ImageViewer import ImageViewer
 from utils.diametre_monnaie import conversion_piece
 
-reference_object_mm = 22.6
 
 class PointDrawer(ImageViewer):
-    def __init__(self):
+    def __init__(self,image_path,reference_object_mm):
         super().__init__()
         self.last_measured_distance_mm = None
         self.points = []
+        self.image_path = image_path 
+        self.reference_object_mm = reference_object_mm
 
     def addPoint(self, x, y):
         if len(self.points) >= 2:
@@ -41,8 +42,7 @@ class PointDrawer(ImageViewer):
                 displayed_image_width = self.width()
                 resize_factor = displayed_image_width / self.original_width
                 distance_real = distance_pixels / resize_factor
-                # Assume size_pixels and reference_object_mm are defined
-                size_pixels = 1  # Replace this with actual calculation
+                size_pixels = conversion_piece(self.image_path, self.reference_object_mm)
                 distance_mm = distance_real * size_pixels
                 print(f"Distance entre les deux derniers points : {distance_mm} mm")
                 self.last_measured_distance_mm = distance_mm

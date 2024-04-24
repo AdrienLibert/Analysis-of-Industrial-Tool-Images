@@ -5,7 +5,7 @@ from PointDrawer import PointDrawer
 class InterfacePrincipale(QMainWindow):
     distanceReady = pyqtSignal(float)
 
-    def __init__(self):
+    def __init__(self,image_path=None,reference_object_mm=None):
         super().__init__()
         self.setWindowTitle("Visualiseur de Filetage")
 
@@ -14,7 +14,7 @@ class InterfacePrincipale(QMainWindow):
         layoutPrincipal = QVBoxLayout()
         widgetCentral.setLayout(layoutPrincipal)
         
-        self.viewer = PointDrawer()
+        self.viewer = PointDrawer(image_path,reference_object_mm)
         layoutPrincipal.addWidget(self.viewer)
 
         self.bouton_mesure = QPushButton("Confirmer la mesure", self)
