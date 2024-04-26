@@ -1,4 +1,5 @@
 import sys
+import os
 from InterfacePrincipale import InterfacePrincipale
 from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel, QVBoxLayout, QWidget, QFileDialog, QMessageBox, QStackedLayout # type: ignore
 from PyQt5.QtGui import QPixmap, QIcon
@@ -64,7 +65,14 @@ class MainWindow(QMainWindow):
         return ok
 
     def loadImage(self):
-        fname, _ = QFileDialog.getOpenFileName(self, 'Open file', r'Analysis-of-Industrial-Tool-Images\Ressources\Database', "Image files (*.jpg *.png)")
+        base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        database_path = os.path.join(base_dir, 'Ressources', 'Database')
+        fname, _ = QFileDialog.getOpenFileName(
+            self, 
+            'Open file', 
+            database_path,
+            "Image files (*.jpg *.png)"
+        )
         if fname:
             self.imagePath = fname
             self.imageLabel.setPixmap(QPixmap(fname).scaled(400, 400, Qt.KeepAspectRatio))

@@ -12,7 +12,6 @@ def main():
     fenetre.distanceMeasured.connect(lambda distance: process_distance(distance, type))
 
     fenetre.show()
-    
     app.exec_()
 
 def process_distance(distance,type):
