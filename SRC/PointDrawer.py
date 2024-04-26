@@ -39,7 +39,7 @@ class PointDrawer(ImageViewer):
             self.addPoint(event.x(), event.y())
             if len(self.points) > 1:
                 distance_pixels = self.calculateDistance()
-                displayed_image_width = self.width()
+                displayed_image_width = self.pixmap().size().width()
                 resize_factor = displayed_image_width / self.original_width
                 distance_real = distance_pixels / resize_factor
                 size_pixels = conversion_piece(self.image_path, self.reference_object_mm)
