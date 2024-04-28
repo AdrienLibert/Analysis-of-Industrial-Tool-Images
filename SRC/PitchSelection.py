@@ -3,7 +3,8 @@ from PyQt5.QtCore import pyqtSignal, Qt
 from PyQt5.QtGui import QPixmap,QPainter, QPen, QPixmap, QImage
 from utils.diametre_pas import demander_type_filetage, pas_metrique,trouver_entiers_adjacents,load_csvgaz_to_df,select_possible_pitches
 from utils.draw_tooth_pattern import draw_tooth_pattern
-
+from utils.diametre_monnaie import conversion_piece
+from CustomGraphicsView import CustomGraphicsView
 class PitchMatchingDialog(QDialog):
     pitchConfirmed = pyqtSignal(str)
 
@@ -15,28 +16,32 @@ class PitchMatchingDialog(QDialog):
         self.reference_object_mm = reference_object_mm
         self.type=type
         self.size_pixels=size_pixels
+
+        self.patternItem = None
         
-        self.layout = QVBoxLayout(self)
+        layout = QVBoxLayout(self)
+        self.setLayout(layout)
 
         self.imageLabel = QLabel("Alignez le motif de pas avec le filetage:")
-        self.layout.addWidget(self.imageLabel)
+        self.imageLabel.setFixedHeight(20)
+        layout.addWidget(self.imageLabel)
         
-        self.graphicsView = QGraphicsView()
-        self.scene = QGraphicsScene()
-        self.graphicsView.setScene(self.scene)
-        
-        self.pixmapItem = QGraphicsPixmapItem(QPixmap(image_path))
-        self.scene.addItem(self.pixmapItem)
-        self.layout.addWidget(self.graphicsView)
+
+        header_layout = QHBoxLayout()
+        layout.addLayout(header_layout)
+
+        self.graphicsView = CustomGraphicsView()
+        self.graphicsView.openPicture(image_path)
+        header_layout.addWidget(self.graphicsView)
 
         self.pitchComboBox = QComboBox()
         self.populatePitchPatterns()
         self.pitchComboBox.currentIndexChanged.connect(self.displaySelectedPitchPattern)
-        self.layout.addWidget(self.pitchComboBox)
+        header_layout.addWidget(self.pitchComboBox)
 
         self.confirmButton = QPushButton("Confirmer le pas")
         self.confirmButton.clicked.connect(self.confirmPitch)
-        self.layout.addWidget(self.confirmButton)
+        layout.addWidget(self.confirmButton)
 
     def getPossiblePitches(self):
         pitches = []
@@ -50,7 +55,6 @@ class PitchMatchingDialog(QDialog):
     
     def populatePitchPatterns(self):
         pitches = self.getPossiblePitches()
-        print(pitches)
         self.pattern_images = {}
         for pitch in pitches:
             pixmap = self.createPitchPixmap(pitch)
@@ -59,6 +63,7 @@ class PitchMatchingDialog(QDialog):
 
     def createPitchPixmap(self, pitch):
         rotation = False
+        self.size_pixels = conversion_piece(self.image_path, self.reference_object_mm)
         pattern_image = draw_tooth_pattern(self.size_pixels, pitch, rotation)
 
         # Convertir le numpy array (pattern_image) en QPixmap
@@ -68,19 +73,23 @@ class PitchMatchingDialog(QDialog):
         return QPixmap.fromImage(qimg)
         
     def displaySelectedPitchPattern(self, index):
+        # Supprimez l'ancien motif si présent
+        if self.patternItem is not None:
+            self.graphicsView.scene().removeItem(self.patternItem)
+            self.patternItem = None  # Réinitialiser la référence
+
+        # Récupérez le pixmap du motif sélectionné
         pitch = self.pitchComboBox.itemText(index)
         pattern_pixmap = self.pitchComboBox.itemData(index)
 
-        
-        for item in self.scene.items():
-            if isinstance(item, QGraphicsPixmapItem) and item is not self.pixmapItem:
-                self.scene.removeItem(item)
-
-        
+        # Créez un nouvel élément de motif et ajoutez-le à la scène
         self.patternItem = QGraphicsPixmapItem(pattern_pixmap)
-        self.patternItem.setFlag(QGraphicsPixmapItem.ItemIsMovable)
-        self.scene.addItem(self.patternItem)
-        self.patternItem.setPos(50, 50)
+        self.patternItem.setFlag(QGraphicsPixmapItem.ItemIsMovable)  # Permettre de déplacer l'élément
+        self.graphicsView.scene().addItem(self.patternItem)
+
+        # Positionnez le motif sur l'image
+        # Ajustez la position initiale si nécessaire
+        self.patternItem.setPos(50, 50)  # Exemple de positionnement initial
 
     def confirmPitch(self):
         selectedPattern = self.pitchComboBox.currentText()
