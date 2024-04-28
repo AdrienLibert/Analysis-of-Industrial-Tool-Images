@@ -42,7 +42,7 @@ class PitchMatchingDialog(QDialog):
         pitches = []
         if self.type == 'métrique':
             inf, sup = trouver_entiers_adjacents(self.diameter)
-            pitches = pas_metrique(inf, sup)  # Assuming this returns a list of pitches
+            pitches = pas_metrique(inf, sup) 
         elif self.type == 'gaz':
             df = load_csvgaz_to_df()
             pitches = select_possible_pitches(df, self.diameter)
@@ -58,8 +58,7 @@ class PitchMatchingDialog(QDialog):
             self.pitchComboBox.addItem(str(pitch), pixmap)
 
     def createPitchPixmap(self, pitch):
-        # Générer le motif à l'aide de la fonction draw_tooth_pattern
-        rotation = False   # Vous pouvez choisir de faire pivoter le motif ou non
+        rotation = False
         pattern_image = draw_tooth_pattern(self.size_pixels, pitch, rotation)
 
         # Convertir le numpy array (pattern_image) en QPixmap
@@ -72,16 +71,16 @@ class PitchMatchingDialog(QDialog):
         pitch = self.pitchComboBox.itemText(index)
         pattern_pixmap = self.pitchComboBox.itemData(index)
 
-        # Clear any existing pattern items first
+        
         for item in self.scene.items():
             if isinstance(item, QGraphicsPixmapItem) and item is not self.pixmapItem:
                 self.scene.removeItem(item)
 
-        # Create and display the new pattern item
+        
         self.patternItem = QGraphicsPixmapItem(pattern_pixmap)
         self.patternItem.setFlag(QGraphicsPixmapItem.ItemIsMovable)
         self.scene.addItem(self.patternItem)
-        self.patternItem.setPos(50, 50)  # Initial position, adjust as necessary
+        self.patternItem.setPos(50, 50)
 
     def confirmPitch(self):
         selectedPattern = self.pitchComboBox.currentText()
