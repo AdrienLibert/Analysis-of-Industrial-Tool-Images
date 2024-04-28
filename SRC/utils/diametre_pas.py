@@ -1,5 +1,6 @@
 import math
 import pandas as pd
+import os
 
 
 metrique_path = "Ressources\Table\Metrique.csv"
@@ -34,10 +35,14 @@ def pas_metrique(inf, sup):
     for taille, valeur in selected_values.items():
         print(f"{taille}: {valeur}")
 
+
 def load_csvgaz_to_df():
-    df = pd.read_csv("Ressources\Table\Gaz.csv", delimiter=";",decimal=',')
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    csv_path = os.path.join(dir_path, '..', '..', 'Ressources', 'Table', 'Gaz.csv')
+    df = pd.read_csv(csv_path, delimiter=';', decimal=',')
     df.columns = [col.strip() for col in df.columns]
     return df
+
 
 def select_possible_pitches(df, measured_diameter, tolerance=1.0):
     # Selection les diamiètre possible
