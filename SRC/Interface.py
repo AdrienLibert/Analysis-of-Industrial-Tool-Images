@@ -1,7 +1,7 @@
 import sys
 import os
 from InterfacePrincipale import InterfacePrincipale
-from PitchSelection import PitchPatternDialog
+from PitchSelection import PitchMatchingDialog
 from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel, QVBoxLayout, QWidget, QFileDialog, QMessageBox, QStackedLayout # type: ignore
 from PyQt5.QtGui import QPixmap, QIcon
 from PyQt5.QtCore import Qt, QSize
@@ -12,8 +12,9 @@ from PyQt5.QtCore import pyqtSignal
 
 class MainWindow(QMainWindow):
     distanceMeasured = pyqtSignal(float)
-    def __init__(self):
+    def __init__(self,type=None):
         super().__init__()
+        self.type = type
         self.initUI()
 
     def initUI(self):
@@ -85,10 +86,14 @@ class MainWindow(QMainWindow):
             self.getReferenceSize()
             self.fenetre = InterfacePrincipale(self.imagePath,self.referenceObjectMM)
             self.fenetre.viewer.setImage(self.loadedPixmap)
+            self.fenetre.size_pixelsReady.connect(self.process_size_pixels)
             self.fenetre.distanceReady.connect(self.process_distance)
             self.fenetre.show()
         else:
             QMessageBox.warning(self, 'Aucune Image', 'Veuillez charger une image avant d\'analyser.')
+
+    def process_size_pixels(self,size_pixels):
+        self.size_pixels = size_pixels
 
     def process_distance(self, distance):
         rounded_distance = round(distance, 1)
@@ -99,10 +104,11 @@ class MainWindow(QMainWindow):
         msgBox.addButton('Recommencer la mesure', QMessageBox.RejectRole)
         result = msgBox.exec_()
         if result == QMessageBox.AcceptRole:
+            self.fenetre.close()
             self.showPitchSelectionWindow(rounded_distance)
         elif result == QMessageBox.RejectRole:
             self.fenetre.viewer.reset()
 
     def showPitchSelectionWindow(self, diameter):
-        self.pitchDialog = PitchPatternDialog(diameter,self.imagePath,self.referenceObjectMM, self)
-        self.pitchDialog.exec_()  # Use exec_ to make it modal
+        self.pitchDialog = PitchMatchingDialog(diameter,self.imagePath,self.referenceObjectMM,self.type,self.size_pixels, self)
+        self.pitchDialog.exec_()

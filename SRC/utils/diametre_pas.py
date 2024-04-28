@@ -2,7 +2,8 @@ import math
 import pandas as pd
 
 
-metrique_path = "..\Ressources\Table\Metrique.csv"
+metrique_path = "Ressources\Table\Metrique.csv"
+gaz_path = "Ressources\Table\Gaz.csv"
 
 def demander_type_filetage():
     reponse = input("Avez-vous un filetage métrique ou à gaz? Tapez 'métrique' ou 'gaz': ").strip().lower()
@@ -32,3 +33,18 @@ def pas_metrique(inf, sup):
 
     for taille, valeur in selected_values.items():
         print(f"{taille}: {valeur}")
+
+def load_csvgaz_to_df():
+    df = pd.read_csv("Ressources\Table\Gaz.csv", delimiter=";",decimal=',')
+    df.columns = [col.strip() for col in df.columns]
+    return df
+
+def select_possible_pitches(df, measured_diameter, tolerance=1.0):
+    # Selection les diamiètre possible
+    tolerance_mask = (df["Diam_mm"] >= (measured_diameter - tolerance)) & (df["Diam_mm"] <= (measured_diameter + tolerance))
+    possible_pitches_df = df[tolerance_mask]
+
+    bsp_rc_pitches = possible_pitches_df['BSP-BSPT / RC'].tolist()
+    npt_pitches = possible_pitches_df['NPT'].tolist()
+    pitches = bsp_rc_pitches + npt_pitches  # Combine lists
+    return pitches

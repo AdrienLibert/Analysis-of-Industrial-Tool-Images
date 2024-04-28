@@ -42,8 +42,8 @@ class PointDrawer(ImageViewer):
                 displayed_image_width = self.pixmap().size().width()
                 resize_factor = displayed_image_width / self.original_width
                 distance_real = distance_pixels / resize_factor
-                size_pixels = conversion_piece(self.image_path, self.reference_object_mm)
-                distance_mm = distance_real * size_pixels
+                self.size_pixels = conversion_piece(self.image_path, self.reference_object_mm)
+                distance_mm = distance_real * self.size_pixels
                 print(f"Distance entre les deux derniers points : {distance_mm} mm")
                 self.last_measured_distance_mm = distance_mm
 
@@ -54,7 +54,7 @@ class PointDrawer(ImageViewer):
             return math.sqrt((p2.x() - p1.x()) ** 2 + (p2.y() - p1.y()) ** 2)
 
     def get_last_measured_distance(self):
-        return self.last_measured_distance_mm
+        return self.last_measured_distance_mm, self.size_pixels
     
     def reset(self):
         self.points = []  # Assuming you store points here
