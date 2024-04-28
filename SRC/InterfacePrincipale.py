@@ -24,5 +24,6 @@ class InterfacePrincipale(QMainWindow):
     def emitDistance(self):
         distance,size_pixels = self.viewer.get_last_measured_distance()
         if distance is not None:
-            self.distanceReady.emit(distance)
             self.size_pixelsReady.emit(size_pixels)
+            self.distanceReady.emit(distance)
+            
