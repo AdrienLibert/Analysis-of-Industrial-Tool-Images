@@ -55,4 +55,12 @@ class PointDrawer(ImageViewer):
 
     def get_last_measured_distance(self):
         return self.last_measured_distance_mm
+    
+    def reset(self):
+        self.points = []  # Assuming you store points here
+        self.lines = []  # And lines here, if applicable
+        self.last_measured_distance_mm = None
+        self.points.clear()  # This clears the points list
+        self.update()
+
 

@@ -1,6 +1,7 @@
 import sys
 import os
 from InterfacePrincipale import InterfacePrincipale
+from PitchSelection import PitchPatternDialog
 from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel, QVBoxLayout, QWidget, QFileDialog, QMessageBox, QStackedLayout # type: ignore
 from PyQt5.QtGui import QPixmap, QIcon
 from PyQt5.QtCore import Qt, QSize
@@ -91,5 +92,17 @@ class MainWindow(QMainWindow):
 
     def process_distance(self, distance):
         rounded_distance = round(distance, 1)
-        QMessageBox.information(self, 'Analyse Terminée', f'L’analyse de l’image a été réalisée avec succès. Distance mesurée: {rounded_distance} mm')
-        self.distanceMeasured.emit(rounded_distance)
+        msgBox = QMessageBox(self)
+        msgBox.setWindowTitle('Analyse Terminée')
+        msgBox.setText(f'L’analyse de l’image a été réalisée avec succès. Distance mesurée: {rounded_distance} mm')
+        msgBox.addButton('OK', QMessageBox.AcceptRole)
+        msgBox.addButton('Recommencer la mesure', QMessageBox.RejectRole)
+        result = msgBox.exec_()
+        if result == QMessageBox.AcceptRole:
+            self.showPitchSelectionWindow(rounded_distance)
+        elif result == QMessageBox.RejectRole:
+            self.fenetre.viewer.reset()
+
+    def showPitchSelectionWindow(self, diameter):
+        self.pitchDialog = PitchPatternDialog(diameter,self.imagePath,self.referenceObjectMM, self)
+        self.pitchDialog.exec_()  # Use exec_ to make it modal
