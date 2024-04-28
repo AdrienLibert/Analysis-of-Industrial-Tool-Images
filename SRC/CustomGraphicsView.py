@@ -17,6 +17,10 @@ class CustomGraphicsView(QGraphicsView):
         # Initialiser des variables des méthodes
         self.image = None # Image affichée dans la vue
         self.min_zoom_factor = None  # Facteur de zoom minimal
+        self.setMinimumSize(1, 1)
+        self.pixmapOriginal = None
+        self.original_width = 1
+        self.original_height = 1
 
 
     def wheelEvent(self, event): #Evenement de la molette de la souris sur la scène
@@ -44,11 +48,25 @@ class CustomGraphicsView(QGraphicsView):
                 self.setTransformationAnchor(QGraphicsView.AnchorUnderMouse)
                 self.setResizeAnchor(QGraphicsView.AnchorUnderMouse)
                 self.scale(self.zoom_factor, self.zoom_factor)
+    def getCurrentZoomFactor(self):
+        # Retourne le facteur de zoom actuel en comparant avec la taille originale
+        current_transform = self.transform()
+        current_zoom_x = current_transform.m11()  # facteur de zoom sur l'axe X
+        # Si la taille originale est stockée correctement et que le zoom a été appliqué,
+        # alors le facteur de zoom est la valeur de la matrice de transformation (m11 ou m22) divisée par la taille originale
+        return current_zoom_x * self.original_width / self.image.width()
+    
+    # def getZoomFactor(self):
+    #     # Retourne le facteur de zoom actuel de la vue
+    #     return self.transform().m11()  # m11() retourne le facteur de zoom sur l'axe des x
+
 
     def openPicture(self, file_path):
 
         self.image = QPixmap(file_path) # Charge l'image à partir du path
-
+        self.original_width = self.image.width()
+        self.original_height = self.image.height()
+        self.updateImageDisplay()
         if self.image.isNull():
             QMessageBox.warning(self, "Error", "Failed to load image.")
         else:
@@ -62,3 +80,11 @@ class CustomGraphicsView(QGraphicsView):
             self.fitInView(self.sceneRect(), Qt.KeepAspectRatio)
 
             self.min_zoom_factor = self.transform().m11() #Valeur du zoom initial a l'ouverture de l'image
+    def updateImageDisplay(self):
+        if self.pixmapOriginal:
+            pixmapResized = self.pixmapOriginal.scaled(self.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation)
+            self.setPixmap(pixmapResized)
+
+    def resizeEvent(self, event):
+        self.updateImageDisplay()
+        super().resizeEvent(event)

@@ -63,7 +63,12 @@ class PitchMatchingDialog(QDialog):
 
     def createPitchPixmap(self, pitch):
         rotation = False
-        self.size_pixels = conversion_piece(self.image_path, self.reference_object_mm)
+        # Récupérer le facteur de zoom actuel de la vue
+        # current_zoom_factor = self.graphicsView.getCurrentZoomFactor()
+        # Ajuster size_pixels selon le zoom
+        # adjusted_size_pixels = self.size_pixels * current_zoom_factor
+        # adjusted_size_pixels = self.size_pixels
+        # Dessiner le motif avec la taille ajustée
         pattern_image = draw_tooth_pattern(self.size_pixels, pitch, rotation)
 
         # Convertir le numpy array (pattern_image) en QPixmap
