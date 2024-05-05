@@ -79,11 +79,20 @@ class CustomGraphicsView(QGraphicsView):
             self.setSceneRect(QRectF(self.image.rect()))
             self.fitInView(self.sceneRect(), Qt.KeepAspectRatio)
 
+            self.printZoomFactor()
             self.min_zoom_factor = self.transform().m11() #Valeur du zoom initial a l'ouverture de l'image
     def updateImageDisplay(self):
         if self.pixmapOriginal:
             pixmapResized = self.pixmapOriginal.scaled(self.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation)
             self.setPixmap(pixmapResized)
+
+    def printZoomFactor(self):
+        # The scaling factor after fitInView can be calculated from the view's transform matrix
+        currentTransform = self.transform()
+        zoomFactorX = currentTransform.m11()  # Horizontal scaling factor
+        zoomFactorY = currentTransform.m22()  # Vertical scaling factor
+        
+        print(f"Zoom Factor X: {zoomFactorX}, Zoom Factor Y: {zoomFactorY}")
 
     def resizeEvent(self, event):
         self.updateImageDisplay()
