@@ -47,7 +47,9 @@ class PitchMatchingDialog(QDialog):
         pitches = []
         if self.type == 'métrique':
             inf, sup = trouver_entiers_adjacents(self.diameter)
+            print(inf,sup)
             pitches = pas_metrique(inf, sup) 
+            print(pitches)
         elif self.type == 'gaz':
             df = load_csvgaz_to_df()
             pitches = select_possible_pitches(df, self.diameter)
@@ -63,18 +65,15 @@ class PitchMatchingDialog(QDialog):
 
     def createPitchPixmap(self, pitch):
         rotation = False
-        # Récupérer le facteur de zoom actuel de la vue
-        # current_zoom_factor = self.graphicsView.getCurrentZoomFactor()
-        # Ajuster size_pixels selon le zoom
-        # adjusted_size_pixels = self.size_pixels * current_zoom_factor
-        # adjusted_size_pixels = self.size_pixels
-        # Dessiner le motif avec la taille ajustée
-        pattern_image = draw_tooth_pattern(self.size_pixels, pitch, rotation)
+        pattern_image = draw_tooth_pattern(self.size_pixels, 25.4 / pitch, rotation)
 
-        # Convertir le numpy array (pattern_image) en QPixmap
-        height, width = pattern_image.shape
-        bytes_per_line = width
-        qimg = QImage(pattern_image.data, width, height, bytes_per_line, QImage.Format_Grayscale8)
+        height, width, channels = pattern_image.shape
+        bytes_per_line = 4 * width  # 4 canaux (RGBA), donc 4 bytes par pixel
+
+        # Créer un QImage qui utilise le format correct pour une image RGBA
+        qimg = QImage(pattern_image.data, width, height, bytes_per_line, QImage.Format_ARGB32)
+
+        # Convertir le QImage en QPixmap pour l'affichage
         return QPixmap.fromImage(qimg)
         
     def displaySelectedPitchPattern(self, index):

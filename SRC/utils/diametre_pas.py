@@ -23,18 +23,24 @@ def trouver_entiers_adjacents(nombre):
         sup += 1
     return inf, sup
 
-def pas_metrique(inf, sup):
-    df = pd.read_csv(metrique_path, header=None)
+def pas_metrique_(diametre):
+    # Charger les données
+    df = pd.read_csv(metrique_path)
+    # Assumer que le fichier CSV a des colonnes 'Type', 'Taille', 'Valeur'
     df.columns = ['Type', 'Taille', 'Valeur']
-    pattern = f"M{inf}"
-    selected_values = {}
-    for size in df['Taille'].unique():
-        if size.startswith(pattern) or size == f"M{sup}":
-            selected_values[size] = df[df['Taille'] == size]['Valeur'].iloc[0]
 
-    for taille, valeur in selected_values.items():
-        print(f"{taille}: {valeur}")
+    # Obtenir les diamètres inférieurs et supérieurs en fonction de la tolérance
+    inf, sup = trouver_entiers_adjacents(diametre)
 
+    # Filtrer le DataFrame pour les tailles correspondantes avec ancrage précis
+    pattern = f"^(M{inf}|M{round(diametre)}|M{sup})$"
+    filtered_df = df[df['Taille'].str.contains(pattern, regex=True)]
+
+    # Afficher les résultats
+    results = filtered_df.groupby('Taille')['Valeur'].apply(list).to_dict()
+    
+    for taille, valeurs in results.items():
+        print(f"{taille}: {valeurs}")
 
 def load_csvgaz_to_df():
     dir_path = os.path.dirname(os.path.realpath(__file__))
@@ -42,7 +48,6 @@ def load_csvgaz_to_df():
     df = pd.read_csv(csv_path, delimiter=';', decimal=',')
     df.columns = [col.strip() for col in df.columns]
     return df
-
 
 def select_possible_pitches(df, measured_diameter, tolerance=1.0):
     # Selection les diamiètre possible
