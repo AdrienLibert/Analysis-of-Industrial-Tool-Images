@@ -23,7 +23,7 @@ def trouver_entiers_adjacents(nombre):
         sup += 1
     return inf, sup
 
-def pas_metrique_(diametre):
+def pas_metrique(diametre):
     # Charger les données
     df = pd.read_csv(metrique_path)
     # Assumer que le fichier CSV a des colonnes 'Type', 'Taille', 'Valeur'
