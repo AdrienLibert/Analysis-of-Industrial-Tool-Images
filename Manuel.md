@@ -86,7 +86,7 @@ Pour calibrer correctement les mesures, une pièce de référence de taille conn
 
 1. **Chargement de l'image** : Cliquez sur le bouton 'Charger une image' dans l'interface principale. Sélectionnez l'image du filetage que vous souhaitez analyser, en vous assurant que la pièce de référence est également visible sur l'image.
 
-2. **Entrée de la taille de la pièce de référence** : Entrez les dimensions de la pièce de référence utilisée. Cette étape est cruciale pour que l'application puisse calibrer les mesures en fonction de la taille réelle de la pièce.
+2. **Entrée de la taille de la pièce de référence** : Choisissez les dimensions de la pièce de référence utilisée. Cette étape est cruciale pour que l'application puisse calibrer les mesures en fonction de la taille réelle de la pièce.
   
 ![Ref](images/1.jpg "Ref")
 
