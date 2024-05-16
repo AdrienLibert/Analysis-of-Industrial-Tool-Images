@@ -2,7 +2,7 @@ import sys
 import os
 from InterfacePrincipale import InterfacePrincipale
 from PitchSelection import PitchMatchingDialog
-from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel, QVBoxLayout, QWidget, QFileDialog, QMessageBox, QStackedLayout
+from PyQt5.QtWidgets import QComboBox, QMainWindow, QPushButton, QLabel, QVBoxLayout, QWidget, QFileDialog, QMessageBox, QStackedLayout
 from PyQt5.QtGui import QPixmap, QIcon
 from PyQt5.QtCore import Qt, QSize
 from PyQt5.QtWidgets import QInputDialog
@@ -48,10 +48,20 @@ class MainWindow(QMainWindow):
         self.btnAnalyse.clicked.connect(self.analyser_image)
         self.btnAnalyse.setStyleSheet("QPushButton { padding: 10px; font-size: 16px; }")
 
+        # ComboBox pour sélectionner l'objet de référence
+        self.comboBox = QComboBox(self)
+        self.comboBox.addItem("20 centimes - 22.25 mm", 22.25)
+        self.comboBox.addItem("50 centimes - 24.25 mm", 24.25)
+        self.comboBox.addItem("1 euro - 23.25 mm", 23.25)
+        self.comboBox.addItem("2 euros - 25.75 mm", 25.75)
+        self.comboBox.addItem("100 yen - 22.6 mm", 22.6)
+        self.comboBox.setStyleSheet("QComboBox { padding: 10px; font-size: 16px; }")
+
         # Assemblage du layout principal
         layout = QVBoxLayout()
         layout.addWidget(self.label)
         layout.addWidget(self.imageContainer)
+        layout.addWidget(self.comboBox)
         layout.addWidget(self.btnLoad)
         layout.addWidget(self.btnAnalyse)
         container = QWidget()
@@ -79,7 +89,7 @@ class MainWindow(QMainWindow):
     def analyser_image(self):
         # Analyser l'image chargée
         if hasattr(self, 'loadedPixmap'):
-            self.getReferenceSize()
+            self.referenceObjectMM = self.comboBox.currentData()
             self.fenetre = InterfacePrincipale(self.imagePath, self.referenceObjectMM)
             self.fenetre.size_pixelsReady.connect(self.process_size_pixels)
             self.fenetre.distanceReady.connect(self.process_distance)
