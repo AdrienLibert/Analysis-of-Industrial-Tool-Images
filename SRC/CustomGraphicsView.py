@@ -64,9 +64,9 @@ class CustomGraphicsView(QGraphicsView):
     def openPicture(self, file_path):
 
         self.image = QPixmap(file_path) # Charge l'image à partir du path
+        self.pixmapOriginal = QPixmap(file_path)
         self.original_width = self.image.width()
         self.original_height = self.image.height()
-        self.updateImageDisplay()
         if self.image.isNull():
             QMessageBox.warning(self, "Error", "Failed to load image.")
         else:
@@ -81,10 +81,6 @@ class CustomGraphicsView(QGraphicsView):
 
             self.printZoomFactor()
             self.min_zoom_factor = self.transform().m11() #Valeur du zoom initial a l'ouverture de l'image
-    def updateImageDisplay(self):
-        if self.pixmapOriginal:
-            pixmapResized = self.pixmapOriginal.scaled(self.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation)
-            self.setPixmap(pixmapResized)
 
     def printZoomFactor(self):
         # The scaling factor after fitInView can be calculated from the view's transform matrix
@@ -93,7 +89,3 @@ class CustomGraphicsView(QGraphicsView):
         zoomFactorY = currentTransform.m22()  # Vertical scaling factor
         
         print(f"Zoom Factor X: {zoomFactorX}, Zoom Factor Y: {zoomFactorY}")
-
-    def resizeEvent(self, event):
-        self.updateImageDisplay()
-        super().resizeEvent(event)

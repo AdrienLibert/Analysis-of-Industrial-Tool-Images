@@ -33,7 +33,8 @@ def pas_metrique(diametre):
     inf, sup = trouver_entiers_adjacents(diametre)
 
     # Filtrer le DataFrame pour les tailles correspondantes avec ancrage précis
-    pattern = f"^(M{inf}|M{round(diametre)}|M{sup})$"
+    pattern = f"^(M{inf}|M{round(diametre)}|M{sup}|MF{inf}|MF{round(diametre)}|MF{sup})$"
+    # pattern = f"^(M{inf}|M{round(diametre)}|M{sup})$"
     filtered_df = df[df['Taille'].str.contains(pattern, regex=True)]
 
     # Afficher les résultats
@@ -41,6 +42,7 @@ def pas_metrique(diametre):
     
     for taille, valeurs in results.items():
         print(f"{taille}: {valeurs}")
+    return results
 
 def load_csvgaz_to_df():
     dir_path = os.path.dirname(os.path.realpath(__file__))
@@ -58,3 +60,5 @@ def select_possible_pitches(df, measured_diameter, tolerance=1.0):
     npt_pitches = possible_pitches_df['NPT'].tolist()
     pitches = bsp_rc_pitches + npt_pitches  # Combine lists
     return pitches
+
+

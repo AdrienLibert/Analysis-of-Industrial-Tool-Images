@@ -5,7 +5,8 @@ from PointDrawer import PointDrawer
 class InterfacePrincipale(QMainWindow):
     distanceReady = pyqtSignal(float)
     size_pixelsReady = pyqtSignal(float)
-    def __init__(self,image_path=None,reference_object_mm=None):
+
+    def __init__(self, image_path=None, reference_object_mm=None):
         super().__init__()
         self.setWindowTitle("Visualiseur de Filetage")
 
@@ -13,7 +14,7 @@ class InterfacePrincipale(QMainWindow):
         self.setCentralWidget(widgetCentral)
         layoutPrincipal = QVBoxLayout()
         widgetCentral.setLayout(layoutPrincipal)
-        
+
         self.viewer = PointDrawer(image_path,reference_object_mm)
         layoutPrincipal.addWidget(self.viewer)
 
@@ -22,8 +23,8 @@ class InterfacePrincipale(QMainWindow):
         self.bouton_mesure.clicked.connect(self.emitDistance)
 
     def emitDistance(self):
-        distance,size_pixels = self.viewer.get_last_measured_distance()
+        # Suppose get_last_measured_distance exists and works correctly in CustomGraphicsView
+        distance, size_pixels = self.viewer.get_last_measured_distance()
         if distance is not None:
             self.size_pixelsReady.emit(size_pixels)
             self.distanceReady.emit(distance)
-            

@@ -85,7 +85,7 @@ class MainWindow(QMainWindow):
         if hasattr(self, 'loadedPixmap'):  # Vérifier si une image a été chargée
             self.getReferenceSize()
             self.fenetre = InterfacePrincipale(self.imagePath,self.referenceObjectMM)
-            self.fenetre.viewer.setImage(self.loadedPixmap)
+            # self.fenetre.viewer.setImage(self.loadedPixmap)
             self.fenetre.size_pixelsReady.connect(self.process_size_pixels)
             self.fenetre.distanceReady.connect(self.process_distance)
             self.fenetre.show()

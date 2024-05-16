@@ -1,10 +1,12 @@
-from PyQt5.QtWidgets import QDialog, QHBoxLayout, QVBoxLayout, QLabel, QComboBox, QPushButton, QGraphicsView, QGraphicsScene, QGraphicsPixmapItem
+from PyQt5.QtWidgets import QDialog, QHBoxLayout, QVBoxLayout, QLabel, QComboBox, QPushButton, QMessageBox, QGraphicsScene, QGraphicsPixmapItem
 from PyQt5.QtCore import pyqtSignal, Qt
 from PyQt5.QtGui import QPixmap,QPainter, QPen, QPixmap, QImage
 from utils.diametre_pas import demander_type_filetage, pas_metrique,trouver_entiers_adjacents,load_csvgaz_to_df,select_possible_pitches
 from utils.draw_tooth_pattern import draw_tooth_pattern
 from utils.diametre_monnaie import conversion_piece
 from CustomGraphicsView import CustomGraphicsView
+
+
 class PitchMatchingDialog(QDialog):
     pitchConfirmed = pyqtSignal(str)
 
@@ -46,24 +48,37 @@ class PitchMatchingDialog(QDialog):
     def getPossiblePitches(self):
         pitches = []
         if self.type == 'métrique':
-            # pitches = pas_metrique(self.diameter) 
-            # print(pitches)
+            pitches_dict = pas_metrique(self.diameter) 
+            for size, pas_list in pitches_dict.items():
+                for pas in pas_list:
+                    pitches.append((size, pas))
+            print(pitches)
         elif self.type == 'gaz':
             df = load_csvgaz_to_df()
             pitches = select_possible_pitches(df, self.diameter)
         return pitches
     
     def populatePitchPatterns(self):
-        pitches = self.getPossiblePitches()
-        self.pattern_images = {}
-        for pitch in pitches:
-            pixmap = self.createPitchPixmap(pitch)
-            self.pattern_images[pitch] = pixmap
-            self.pitchComboBox.addItem(str(pitch), pixmap)
+        if self.type == 'gaz':
+            pitches = self.getPossiblePitches()
+            self.pattern_images = {}
+            for pitch in pitches:
+                pixmap = self.createPitchPixmap(25.4/pitch)
+                self.pattern_images[pitch] = pixmap
+                self.pitchComboBox.addItem(str(pitch), pixmap)
+        elif self.type == 'métrique':
+            pitches = self.getPossiblePitches()
+            self.pattern_images = {}
+            for size, pas in pitches:
+                # Créer un pixmap pour chaque pas
+                pixmap = self.createPitchPixmap(pas/100)
+                self.pattern_images[(size, pas)] = pixmap
+                # Ajouter l'item au QComboBox avec le format "M8, 6.75"
+                self.pitchComboBox.addItem(f"{size}, {pas}", pixmap)
 
     def createPitchPixmap(self, pitch):
         rotation = False
-        pattern_image = draw_tooth_pattern(self.size_pixels, 25.4 / pitch, rotation)
+        pattern_image = draw_tooth_pattern(self.size_pixels, pitch, rotation)
 
         height, width, channels = pattern_image.shape
         bytes_per_line = 4 * width  # 4 canaux (RGBA), donc 4 bytes par pixel
@@ -97,3 +112,10 @@ class PitchMatchingDialog(QDialog):
         selectedPattern = self.pitchComboBox.currentText()
         self.pitchConfirmed.emit(selectedPattern)
         self.accept()
+        # Afficher un message de confirmation
+        if self.type == 'métrique':
+            QMessageBox.information(self, "Confirmation du pas",
+                                f"Le diamètre est de {self.diameter} mm avec un pas de {selectedPattern}.")
+        elif self.type == 'gaz':
+            QMessageBox.information(self, "Confirmation du pas",
+                                f"Le diamètre est de {self.diameter} mm avec {selectedPattern} filet sur un pouce (25,4 mm).")
