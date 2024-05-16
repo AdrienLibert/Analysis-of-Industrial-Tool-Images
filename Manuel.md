@@ -88,7 +88,7 @@ Pour calibrer correctement les mesures, une pièce de référence de taille conn
 
 2. **Entrée de la taille de la pièce de référence** : Entrez les dimensions de la pièce de référence utilisée. Cette étape est cruciale pour que l'application puisse calibrer les mesures en fonction de la taille réelle de la pièce.
   
-![Ref](images1.jpg "Ref")
+![Ref](images/1.jpg "Ref")
 
 
 1. **Sélection de la zone à mesurer** : Sélectionnez un point sur un picot en haut du filetage et le deuxième point sur le picot en bas du filetage. Cette méthode permet de cibler précisément les extrémités du filetage pour une mesure exacte du diamètre.
