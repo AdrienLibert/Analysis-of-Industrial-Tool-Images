@@ -55,6 +55,7 @@ class MainWindow(QMainWindow):
         self.comboBox.addItem("1 euro - 23.25 mm", 23.25)
         self.comboBox.addItem("2 euros - 25.75 mm", 25.75)
         self.comboBox.addItem("100 yen - 22.6 mm", 22.6)
+        self.comboBox.addItem("500 yen - 26.5 mm", 26.5)
         self.comboBox.setStyleSheet("QComboBox { padding: 10px; font-size: 16px; }")
 
         # Assemblage du layout principal
