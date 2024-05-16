@@ -93,7 +93,13 @@ class PitchMatchingDialog(QDialog):
         self.patternItem = QGraphicsPixmapItem(pattern_pixmap)
         self.patternItem.setFlag(QGraphicsPixmapItem.ItemIsMovable)
         self.graphicsView.scene().addItem(self.patternItem)
-        self.patternItem.setPos(50, 50)
+
+        # Positionne le motif de la dent au milieu de la vue graphique
+        view_width = self.graphicsView.scene().width()
+        view_height = self.graphicsView.scene().height()
+        pixmap_width = pattern_pixmap.width()
+        pixmap_height = pattern_pixmap.height()
+        self.patternItem.setPos((view_width - pixmap_width) / 2, (view_height - pixmap_height) / 2)
 
     def confirmPitch(self):
         # Confirme le choix du pas et émet le signal correspondant
