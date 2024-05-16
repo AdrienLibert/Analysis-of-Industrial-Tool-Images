@@ -4,18 +4,18 @@ from utils.diametre_monnaie import conversion_piece
 import math
 from PyQt5.QtCore import Qt, QPointF
 from PyQt5.QtGui import QPen,QColor
-
 class PointDrawer(QDialog):
     def __init__(self, image_path, reference_object_mm):
         super().__init__()
+        # Initialisation avec un chemin d'image et une référence de taille
         self.last_measured_distance_mm = None
         self.points = []
         self.image_path = image_path
         self.reference_object_mm = reference_object_mm
 
+        # Configuration de la vue graphique
         self.graphicsView = CustomGraphicsView()
         self.graphicsView.openPicture(image_path)
-        
         self.graphicsView.mousePressEvent = self.mousePressEvent
         self.setLayout(QVBoxLayout())
         self.layout().addWidget(self.graphicsView)
@@ -56,6 +56,7 @@ class PointDrawer(QDialog):
         self.calculateAndDisplayDistance(p1, p2)
 
     def calculateAndDisplayDistance(self, p1, p2):
+        # Calcule la distance en millimètres entre deux points
         distance_pixels = math.sqrt((p2.x() - p1.x()) ** 2 + (p2.y() - p1.y()) ** 2)
         displayed_image_width = self.graphicsView.image.width()
         resize_factor = displayed_image_width / self.graphicsView.original_width
@@ -66,10 +67,12 @@ class PointDrawer(QDialog):
         print(f"Distance entre les deux points : {distance_mm} mm")
 
     def mousePressEvent(self, event):
+        # Gestion des événements de clic pour ajouter des points
         if event.button() == Qt.LeftButton:
             self.addPoint(event.x(), event.y())
 
     def reset(self):
+        # Réinitialise les points et les mesures
         for item in self.points:
             self.graphicsView.scene().removeItem(item)
         self.points.clear()
@@ -78,5 +81,6 @@ class PointDrawer(QDialog):
         self.last_measured_distance_mm = None
 
     def get_last_measured_distance(self):
+        # Retourne la dernière distance mesurée et la taille en pixels
         return self.last_measured_distance_mm, self.size_pixels
 

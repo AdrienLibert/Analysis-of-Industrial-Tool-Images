@@ -2,8 +2,6 @@ from PyQt5.QtWidgets import QGraphicsView, QGraphicsScene, QGraphicsRectItem, QG
 from PyQt5.QtCore import Qt , QRectF, QSizeF, QFileInfo
 from PyQt5.QtGui import  *
 import cv2
-
-
 class CustomGraphicsView(QGraphicsView):
     def __init__(self, parent=None):
         super().__init__()
@@ -52,14 +50,7 @@ class CustomGraphicsView(QGraphicsView):
         # Retourne le facteur de zoom actuel en comparant avec la taille originale
         current_transform = self.transform()
         current_zoom_x = current_transform.m11()  # facteur de zoom sur l'axe X
-        # Si la taille originale est stockée correctement et que le zoom a été appliqué,
-        # alors le facteur de zoom est la valeur de la matrice de transformation (m11 ou m22) divisée par la taille originale
         return current_zoom_x * self.original_width / self.image.width()
-    
-    # def getZoomFactor(self):
-    #     # Retourne le facteur de zoom actuel de la vue
-    #     return self.transform().m11()  # m11() retourne le facteur de zoom sur l'axe des x
-
 
     def openPicture(self, file_path):
 

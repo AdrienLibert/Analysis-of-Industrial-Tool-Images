@@ -1,23 +1,22 @@
 from PyQt5.QtWidgets import QDialog, QHBoxLayout, QVBoxLayout, QLabel, QComboBox, QPushButton, QMessageBox, QGraphicsScene, QGraphicsPixmapItem
 from PyQt5.QtCore import pyqtSignal, Qt
-from PyQt5.QtGui import QPixmap,QPainter, QPen, QPixmap, QImage
-from utils.diametre_pas import demander_type_filetage, pas_metrique,trouver_entiers_adjacents,load_csvgaz_to_df,select_possible_pitches
+from PyQt5.QtGui import QPixmap, QPainter, QPen, QPixmap, QImage
+from utils.diametre_pas import demander_type_filetage, pas_metrique, trouver_entiers_adjacents, load_csvgaz_to_df, select_possible_pitches
 from utils.draw_tooth_pattern import draw_tooth_pattern
 from utils.diametre_monnaie import conversion_piece
 from CustomGraphicsView import CustomGraphicsView
 
-
 class PitchMatchingDialog(QDialog):
-    pitchConfirmed = pyqtSignal(str)
+    pitchConfirmed = pyqtSignal(str)  # Signal émis lorsque le pas est confirmé
 
-    def __init__(self,diameter=None,image_path=None,reference_object_mm=None,type=None,size_pixels=None, parent=None):
+    def __init__(self, diameter=None, image_path=None, reference_object_mm=None, type=None, size_pixels=None, parent=None):
         super().__init__(parent)
         self.setWindowTitle("Matching du pas")
         self.image_path = image_path
         self.diameter = diameter
         self.reference_object_mm = reference_object_mm
-        self.type=type
-        self.size_pixels=size_pixels
+        self.type = type
+        self.size_pixels = size_pixels
 
         self.patternItem = None
         
@@ -28,7 +27,6 @@ class PitchMatchingDialog(QDialog):
         self.imageLabel.setFixedHeight(20)
         layout.addWidget(self.imageLabel)
         
-
         header_layout = QHBoxLayout()
         layout.addLayout(header_layout)
 
@@ -46,6 +44,7 @@ class PitchMatchingDialog(QDialog):
         layout.addWidget(self.confirmButton)
 
     def getPossiblePitches(self):
+        # Récupère les pas possibles en fonction du type de filetage
         pitches = []
         if self.type == 'métrique':
             pitches_dict = pas_metrique(self.diameter) 
@@ -59,6 +58,7 @@ class PitchMatchingDialog(QDialog):
         return pitches
     
     def populatePitchPatterns(self):
+        # Remplit le comboBox avec les motifs de pas disponibles
         if self.type == 'gaz':
             pitches = self.getPossiblePitches()
             self.pattern_images = {}
@@ -70,52 +70,37 @@ class PitchMatchingDialog(QDialog):
             pitches = self.getPossiblePitches()
             self.pattern_images = {}
             for size, pas in pitches:
-                # Créer un pixmap pour chaque pas
                 pixmap = self.createPitchPixmap(pas/100)
                 self.pattern_images[(size, pas)] = pixmap
-                # Ajouter l'item au QComboBox avec le format "M8, 6.75"
                 self.pitchComboBox.addItem(f"{size}, {pas}", pixmap)
 
     def createPitchPixmap(self, pitch):
+        # Crée un pixmap pour chaque pas spécifié
         rotation = False
         pattern_image = draw_tooth_pattern(self.size_pixels, pitch, rotation)
-
         height, width, channels = pattern_image.shape
-        bytes_per_line = 4 * width  # 4 canaux (RGBA), donc 4 bytes par pixel
-
-        # Créer un QImage qui utilise le format correct pour une image RGBA
+        bytes_per_line = 4 * width
         qimg = QImage(pattern_image.data, width, height, bytes_per_line, QImage.Format_ARGB32)
-
-        # Convertir le QImage en QPixmap pour l'affichage
         return QPixmap.fromImage(qimg)
         
     def displaySelectedPitchPattern(self, index):
-        # Supprimez l'ancien motif si présent
+        # Affiche le motif de pas sélectionné dans la vue graphique
         if self.patternItem is not None:
             self.graphicsView.scene().removeItem(self.patternItem)
-            self.patternItem = None  # Réinitialiser la référence
-
-        # Récupérez le pixmap du motif sélectionné
+            self.patternItem = None
         pitch = self.pitchComboBox.itemText(index)
         pattern_pixmap = self.pitchComboBox.itemData(index)
-
-        # Créez un nouvel élément de motif et ajoutez-le à la scène
         self.patternItem = QGraphicsPixmapItem(pattern_pixmap)
-        self.patternItem.setFlag(QGraphicsPixmapItem.ItemIsMovable)  # Permettre de déplacer l'élément
+        self.patternItem.setFlag(QGraphicsPixmapItem.ItemIsMovable)
         self.graphicsView.scene().addItem(self.patternItem)
-
-        # Positionnez le motif sur l'image
-        # Ajustez la position initiale si nécessaire
-        self.patternItem.setPos(50, 50)  # Exemple de positionnement initial
+        self.patternItem.setPos(50, 50)
 
     def confirmPitch(self):
+        # Confirme le choix du pas et émet le signal correspondant
         selectedPattern = self.pitchComboBox.currentText()
         self.pitchConfirmed.emit(selectedPattern)
         self.accept()
-        # Afficher un message de confirmation
         if self.type == 'métrique':
-            QMessageBox.information(self, "Confirmation du pas",
-                                f"Le diamètre est de {self.diameter} mm avec un pas de {selectedPattern}.")
+            QMessageBox.information(self, "Confirmation du pas", f"Le diamètre est de {self.diameter} mm avec un pas de {selectedPattern}.")
         elif self.type == 'gaz':
-            QMessageBox.information(self, "Confirmation du pas",
-                                f"Le diamètre est de {self.diameter} mm avec {selectedPattern} filet sur un pouce (25,4 mm).")
+            QMessageBox.information(self, "Confirmation du pas", f"Le diamètre est de {self.diameter} mm avec {selectedPattern} filet sur un pouce (25,4 mm).")
