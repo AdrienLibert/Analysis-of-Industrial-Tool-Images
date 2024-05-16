@@ -77,7 +77,7 @@ Après avoir installé avec succès toutes les dépendances nécessaires, vous �
 L'interface principale est conçue pour être intuitive et facile à utiliser. 
 Vous trouverez des boutons pour charger les images, ainsi que des outils pour sélectionner les zones à mesurer. Prenez un moment pour vous familiariser avec les différentes options disponibles.
 
-![Interface](images/0.jpg "Interface")
+![Interface](images/0.png "Interface")
 
 ## 4. Mesure du Diamètre
 
@@ -113,7 +113,7 @@ L'interface de mesure de pas vous permet de déterminer précisément le pas des
 
 3. **Lecture des résultats** : L'application calculera et affichera le pas en millimètres ou dans une autre unité spécifiée. Vous pourrez voir le pas mesuré directement dans l'interface.
 
-![Pas](images/3.jpg "Pas")
+![Pas](images/3.png "Pas")
 
 ## 6. Dépannage
 
