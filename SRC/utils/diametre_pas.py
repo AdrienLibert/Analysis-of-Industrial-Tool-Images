@@ -2,11 +2,11 @@ import math
 import pandas as pd
 import os
 
-
 metrique_path = "Ressources\Table\Metrique.csv"
 gaz_path = "Ressources\Table\Gaz.csv"
 
 def demander_type_filetage():
+    #Demande à l'utilisateur de spécifier le type de filetage et assure la validation de l'entrée.
     reponse = input("Avez-vous un filetage métrique ou à gaz? Tapez 'métrique' ou 'gaz': ").strip().lower()
     
     while reponse not in ['métrique', 'gaz']:
@@ -16,6 +16,7 @@ def demander_type_filetage():
     return reponse
 
 def trouver_entiers_adjacents(nombre):
+    #rouve les nombres entiers immédiatement inférieurs et supérieurs à un nombre donné.
     inf = math.floor(nombre)
     sup = math.ceil(nombre)
     if inf == sup:
@@ -45,6 +46,7 @@ def pas_metrique(diametre):
     return results
 
 def load_csvgaz_to_df():
+    #Charge un fichier CSV contenant des informations sur les filetages à gaz depuis un chemin relatif.
     dir_path = os.path.dirname(os.path.realpath(__file__))
     csv_path = os.path.join(dir_path, '..', '..', 'Ressources', 'Table', 'Gaz.csv')
     df = pd.read_csv(csv_path, delimiter=';', decimal=',')
@@ -52,13 +54,13 @@ def load_csvgaz_to_df():
     return df
 
 def select_possible_pitches(df, measured_diameter, tolerance=1.0):
-    # Selection les diamiètre possible
+    # Sélectionne les pas possibles pour un diamètre mesuré en considérant une tolérance.
     tolerance_mask = (df["Diam_mm"] >= (measured_diameter - tolerance)) & (df["Diam_mm"] <= (measured_diameter + tolerance))
     possible_pitches_df = df[tolerance_mask]
 
     bsp_rc_pitches = possible_pitches_df['BSP-BSPT / RC'].tolist()
     npt_pitches = possible_pitches_df['NPT'].tolist()
-    pitches = bsp_rc_pitches + npt_pitches  # Combine lists
+    pitches = bsp_rc_pitches + npt_pitches
     return pitches
 
 
