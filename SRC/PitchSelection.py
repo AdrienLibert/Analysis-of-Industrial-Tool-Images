@@ -46,10 +46,8 @@ class PitchMatchingDialog(QDialog):
     def getPossiblePitches(self):
         pitches = []
         if self.type == 'métrique':
-            inf, sup = trouver_entiers_adjacents(self.diameter)
-            print(inf,sup)
-            pitches = pas_metrique(inf, sup) 
-            print(pitches)
+            # pitches = pas_metrique(self.diameter) 
+            # print(pitches)
         elif self.type == 'gaz':
             df = load_csvgaz_to_df()
             pitches = select_possible_pitches(df, self.diameter)
